@@ -7,6 +7,7 @@ class TicketHolder(models.Model):
     amo_number = models.CharField(max_length=255,blank=True,null=True)
     email = models.CharField(max_length=255,blank=True,null=True)
     ticket_number = models.CharField(max_length=255,blank=True,null=True)
+    ticket_url = models.CharField(max_length=255,blank=True,null=True)
     type_of_event = models.CharField(max_length=255,blank=True,null=True)
     event = models.CharField(max_length=255,blank=True,null=True)
     date_of_event = models.CharField(max_length=255,blank=True,null=True)

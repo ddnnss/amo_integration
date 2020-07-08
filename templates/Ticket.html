@@ -2,12 +2,32 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Logo</title>
+    <title>Your Ticket</title>
+    <style type="text/css">
+        html {
+            -webkit-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+        }
 
+        @media only screen and (max-device-width: 800px), only screen and (max-width: 800px) {
+
+            .mob-radius-right {
+                border-radius: 0 3px 3px 0;
+            }
+
+            .mob-radius-left {
+                border-radius: 3px 0 0 3px;
+                border-left: 1px solid #ebebeb !important;
+            }
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #fff;">
 
-    <span class="preheader" style="display: none !important; visibility: hidden; opacity: 0; color: #fff; height: 0; width: 0; font-size: 1px;"></span>
+    <span class="preheader" style="display: none !important; visibility: hidden; opacity: 0; color: #fff; height: 0; width: 0; font-size: 1px;">Прехедер</span>
 
     <table cellpadding="0" cellspacing="0" border="0" width="100%" style="font-size: 1px; line-height: normal;">
         <tr>
@@ -15,21 +35,22 @@
                 <!--[if (gte mso 9)|(IE)]>
                 <table cellpadding="0" cellspacing="0" border="0" width="660"><tr><td>
                 <![endif]-->
-                <div style="margin-bottom:20px;background-color: #0028C8; text-align: center; padding: 12px;">
+                <div style="background-color: #0028C8; text-align: center; padding: 12px;">
                     <img width="134px" height="23px" src="https://reddevil113.github.io/portfolio/Inclusion/logo-1.png" alt="">
                 </div>
-                <div style="width: 595px; padding: 0 15px; margin: 0 auto; text-align: left;">
-                    <span style="display:block;margin-bottom:20px;font-family: Verdana, sans-serif; font-size: 16px;  font-weight: bold; color: #4F5A68; text-align: left;">Global Inclusion Online Forum ticket</span>
-
-                    <div style="padding: 14px 24px; background-color: #EBF0F4; border-radius: 6px;">
-                        <span style="display:block;font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: bold; color: #4F5A68; text-align: left;">Note From The Organizers</span>
-
-                        <span style="display:block;font-family: Verdana, sans-serif; font-size: 16px; line-height: 4px; font-weight: normal; color: #4F5A68; text-align: left;">Congratulations. Your ticket has been confirmed. Please ensure that all information is correct on your ticket.</span>
-
-                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 44px; font-weight: normal; color: #4F5A68; text-align: left;">Your access details to the virtual platform for the event will be sent to you 5 days prior to the event's date after your successful registration. Please click the link in the email and update your profile.</span>
+                <div style="max-width: 595px; padding: 0 15px; margin: 0 auto; text-align: left;">
+                    <div style="height: 34px; line-height: 34px; font-size: 34px">&nbsp;</div>
+                    <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: bold; color: #4F5A68; text-align: left;">Global Inclusion Online Forum ticket</span>
+                    <div style="height: 26px; line-height: 26px; font-size: 26px">&nbsp;</div>
+                    <div style="padding: 14px 24px; background: #EBF0F4; border-radius: 6px;">
+                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: bold; color: #4F5A68; text-align: left;">Note From The Organizers</span>
+                        <div style="height: 15px; line-height: 15px; font-size: 15px">&nbsp;</div>
+                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: left;">Congratulations. Your ticket has been confirmed. Please ensure that all information is correct on your ticket.</span>
+                        <div style="height: 8px; line-height: 8px; font-size: 8px">&nbsp;</div>
+                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: left;">Your access details to the virtual platform for the event will be sent to you 5 days prior to the event's date after your successful registration. Please click the link in the email and update your profile.</span>
                     </div>
-
-                    <div style="background-color: #0028C8; border-radius: 6px 6px 0 0;">
+                    <div style="height: 24px; line-height: 24px; font-size: 24px">&nbsp;</div>
+                    <div style="background: #0028C8; border-radius: 6px 6px 0 0;">
                         <div style="padding: 23px 20px 22px;">
                             <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 0 auto; border-spacing: 0; border-collapse: collapse;">
                                 <tr>
@@ -37,7 +58,7 @@
                                         <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: bold; color: #fff; display: block;">Global Inclusion Online Forum ticket</span>
                                     </td>
                                     <td>
-                                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: bold; color: #fff; text-align: right; display: block;">GNBD1421</span>
+                                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: bold; color: #fff; text-align: right; display: block;">{{ ticket_number }}</span>
                                     </td>
                                 </tr>
                             </table>
@@ -45,19 +66,25 @@
                     </div>
                     <div style="background: #EBF0F4; border-radius: 0 0 6px 6px;">
                         <div style="padding: 14px 20px 20px;">
-                            <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: left;">Name of workshop:</span>
+                            <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: left;">{{ event_name }}:</span>
                             <div style="height: 4px; line-height: 4px; font-size: 4px">&nbsp;</div>
-                            <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: left;">Global Inclusion Online Forum ticket </span>
+                            <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: left;">{{ name }}</span>
                             <div style="height: 12px; line-height: 12px; font-size: 12px">&nbsp;</div>
                             <div style="height: 1px; line-height: 1px; font-size: 1px; background: #0028C8; opacity: 0.3;">&nbsp;</div>
                             <div style="height: 14px; line-height: 14px; font-size: 14px">&nbsp;</div>
                             <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 0 auto; border-spacing: 0; border-collapse: collapse;">
                                 <tr>
                                     <td>
-                                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: left;">First name: <b style="font-weight: bold;">Kostiantyn</b></span>
+                                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: left;">First name: <b style="font-weight: bold;">
+                                            {% if first_name %}
+                                            {{ first_name }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </b></span>
                                     </td>
                                     <td>
-                                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: right; display: block;">Date: <b style="font-weight: bold;">12.07.2020</b></span>
+                                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: right; display: block;">Date: <b style="font-weight: bold;">{{ date }}</b></span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -67,21 +94,27 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; display: block;">Last name:<b style="font-weight: bold;"> Gridin</b></span>
+                                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; display: block;">Last name:<b style="font-weight: bold;">
+                                        {% if last_name %}
+                                            {{ last_name }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </b></span>
                                     </td>
                                     <td>
-                                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: right; display: block;">Time of the workshop: <b style="font-weight: bold;">18:00</b></span>
+                                        {% if time %}
+                                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; text-align: right; display: block;">Time of the workshop: <b style="font-weight: bold;">{{ time }}</b></span>
+                                        {% endif %}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; display: block;">Email:<b style="font-weight: bold;"> Gridin</b></span>
-                                    </td>
-                                    <td>
-
+                                        <div style="height: 10px; line-height: 10px; font-size: 10px">&nbsp;</div>
                                     </td>
                                 </tr>
                             </table>
+                            <span style="font-family: Verdana, sans-serif; font-size: 16px; line-height: 24px; font-weight: normal; color: #4F5A68; display: block;">E-mail:<b style="font-weight: bold;"> {{ email }}</b></span>
                         </div>
                     </div>
                     <div style="height: 30px; line-height: 30px; font-size: 30px">&nbsp;</div>

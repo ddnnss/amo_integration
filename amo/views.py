@@ -6,6 +6,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+import uuid
+from random import choices
+import string
 
 logger = logging.getLogger('django',)
 
@@ -19,47 +22,47 @@ def print_log(text):
 @csrf_exempt
 def hook(request):
     print_log('New request from AMO')
-    # req = request.POST
-    req =  {'leads[add][0][id]': ['939197'],
-            'leads[add][0][name]': [''],
-            'leads[add][0][status_id]': ['33710260'],
-            'leads[add][0][price]': ['0'],
-            'leads[add][0][responsible_user_id]': ['6130027'],
-            'leads[add][0][last_modified]': ['1594206823'],
-            'leads[add][0][modified_user_id]': ['6130027'],
-            'leads[add][0][created_user_id]': ['6130027'],
-            'leads[add][0][date_create]': ['1594206823'],
-            'leads[add][0][pipeline_id]': ['3369178'],
-            'leads[add][0][account_id]': ['28942735'],
-            'leads[add][0][custom_fields][0][id]': ['44991'],
-             'leads[add][0][custom_fields][0][name]': ['First Name'],
-            'leads[add][0][custom_fields][0][values][0][value]': ['1'],
-             'leads[add][0][custom_fields][1][id]': ['45335'],
-            'leads[add][0][custom_fields][1][name]': ['Last Name'],
-            'leads[add][0][custom_fields][1][values][0][value]': ['2'],
-            'leads[add][0][custom_fields][2][id]': ['44995'],
-            'leads[add][0][custom_fields][2][name]': ['E-mail'],
-            'leads[add][0][custom_fields][2][values][0][value]': ['3'],
-            'leads[add][0][custom_fields][3][id]': ['69375'],
-            'leads[add][0][custom_fields][3][name]': ['Event'],
-            'leads[add][0][custom_fields][3][values][0][value]': ['4'],
-            'leads[add][0][custom_fields][4][id]': ['126837'],
-            'leads[add][0][custom_fields][4][name]': ['Type of event'],
-            'leads[add][0][custom_fields][4][values][0][value]': ['5'],
-            'leads[add][0][custom_fields][5][id]': ['69397'],
-            'leads[add][0][custom_fields][5][name]': ['Date of the event'],
-             'leads[add][0][custom_fields][5][values][0][value]': ['1594206823'],
-            'leads[add][0][custom_fields][6][id]': ['127001'],
-             'leads[add][0][custom_fields][6][name]': ['Time of the workshop'],
-            'leads[add][0][custom_fields][6][values][0][value]': ['1594206823'],
-             'leads[add][0][custom_fields][7][id]': ['45285'],
-            'leads[add][0][custom_fields][7][name]': ['Ticket number'],
-             'leads[add][0][custom_fields][7][values][0][value]': ['8'],
-            'leads[add][0][created_at]': ['1594206823'],
-             'leads[add][0][updated_at]': ['1594206823'], 'account[subdomain]': ['akamocfcbigideascom'], 'account[id]': ['28942735'],
-             'account[_links][self]': ['https://akamocfcbigideascom.amocrm.ru']}
+    req = request.POST
+    # req =  {'leads[add][0][id]': ['939197'],
+    #         'leads[add][0][name]': [''],
+    #         'leads[add][0][status_id]': ['33710260'],
+    #         'leads[add][0][price]': ['0'],
+    #         'leads[add][0][responsible_user_id]': ['6130027'],
+    #         'leads[add][0][last_modified]': ['1594206823'],
+    #         'leads[add][0][modified_user_id]': ['6130027'],
+    #         'leads[add][0][created_user_id]': ['6130027'],
+    #         'leads[add][0][date_create]': ['1594206823'],
+    #         'leads[add][0][pipeline_id]': ['3369178'],
+    #         'leads[add][0][account_id]': ['28942735'],
+    #         'leads[add][0][custom_fields][0][id]': ['44991'],
+    #          'leads[add][0][custom_fields][0][name]': ['First Name'],
+    #         'leads[add][0][custom_fields][0][values][0][value]': ['1'],
+    #          'leads[add][0][custom_fields][1][id]': ['45335'],
+    #         'leads[add][0][custom_fields][1][name]': ['Last Name'],
+    #         'leads[add][0][custom_fields][1][values][0][value]': ['2'],
+    #         'leads[add][0][custom_fields][2][id]': ['44995'],
+    #         'leads[add][0][custom_fields][2][name]': ['E-mail'],
+    #         'leads[add][0][custom_fields][2][values][0][value]': ['3'],
+    #         'leads[add][0][custom_fields][3][id]': ['69375'],
+    #         'leads[add][0][custom_fields][3][name]': ['Event'],
+    #         'leads[add][0][custom_fields][3][values][0][value]': ['4'],
+    #         'leads[add][0][custom_fields][4][id]': ['126837'],
+    #         'leads[add][0][custom_fields][4][name]': ['Type of event'],
+    #         'leads[add][0][custom_fields][4][values][0][value]': ['5'],
+    #         'leads[add][0][custom_fields][5][id]': ['69397'],
+    #         'leads[add][0][custom_fields][5][name]': ['Date of the event'],
+    #          'leads[add][0][custom_fields][5][values][0][value]': ['1594206823'],
+    #         'leads[add][0][custom_fields][6][id]': ['127001'],
+    #          'leads[add][0][custom_fields][6][name]': ['Time of the workshop'],
+    #         'leads[add][0][custom_fields][6][values][0][value]': ['1594206823'],
+    #          'leads[add][0][custom_fields][7][id]': ['45285'],
+    #         'leads[add][0][custom_fields][7][name]': ['Ticket number'],
+    #          'leads[add][0][custom_fields][7][values][0][value]': ['8'],
+    #         'leads[add][0][created_at]': ['1594206823'],
+    #          'leads[add][0][updated_at]': ['1594206823'], 'account[subdomain]': ['akamocfcbigideascom'], 'account[id]': ['28942735'],
+    #          'account[_links][self]': ['https://akamocfcbigideascom.amocrm.ru']}
 
-    if req['leads[add][0][status_id]'][0] == '33710260':  #33710263
+    if req['leads[add][0][status_id]'][0] == '33710263':  #33710263
         print_log('New item in ticket holders')
         local_tz = pytz.timezone("Europe/Paris")
         first_name = None
@@ -112,24 +115,29 @@ def hook(request):
             ticket_number = req['leads[add][0][custom_fields][7][values][0][value]'][0]
         except:
             print_log('ticket_number not set')
-
+        random_string = ''.join(choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=8))
+        url = f'{random_string}--{ticket_number}'
         new_ticket = TicketHolder.objects.create(first_name=first_name,
                                     last_name=last_name,
                                     amo_number=req['leads[add][0][id]'][0],
                                     email=email,
                                     ticket_number=ticket_number,
+                                    ticket_url=url,
                                     type_of_event=type_of_event,
                                     event=event,
                                     date_of_event=date_of_event,
                                     time_of_the_workshop=time_of_the_workshop)
         print_log(f'New tickes is : {new_ticket.id}')
         print_log(f'Sending E-mail to : {email}')
+
+        ticket_url = f'https://mailsender.inclusionforum.global/ticket/{url}/'
         msg_html = render_to_string('reg.html', {
-            'p': request.GET.get("phone"),
-            'n': request.GET.get("name"),
+            'first_name':first_name,
+            'ticket_number': ticket_number,
+            'ticket_url':  ticket_url,
         })
 
-        send_mail(f'Registration', None, 'no-reply@specsintez-pro.ru',
+        send_mail(f'Registration', None, 'tickets@inclusionforum.global',
                   [email],
                   fail_silently=False, html_message=msg_html)
 

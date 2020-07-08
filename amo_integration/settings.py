@@ -33,7 +33,7 @@ LOGGING = {
         },
     },
 }
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = settings.SMTP_HOST
 EMAIL_HOST_USER = settings.SMTP_LOGIN
 EMAIL_HOST_PASSWORD = settings.SMTP_PASSWORD
