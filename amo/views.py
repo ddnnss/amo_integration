@@ -4,6 +4,8 @@ import pytz
 from .models import TicketHolder
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 logger = logging.getLogger('django',)
 
@@ -122,6 +124,14 @@ def hook(request):
                                     time_of_the_workshop=time_of_the_workshop)
         print_log(f'New tickes is : {new_ticket.id}')
         print_log(f'Sending E-mail to : {email}')
+        msg_html = render_to_string('reg.html', {
+            'p': request.GET.get("phone"),
+            'n': request.GET.get("name"),
+        })
+
+        send_mail(f'Registration', None, 'no-reply@specsintez-pro.ru',
+                  [email],
+                  fail_silently=False, html_message=msg_html)
 
     else:
         print_log('This is NOT item in ticket holders')

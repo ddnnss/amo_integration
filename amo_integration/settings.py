@@ -1,6 +1,6 @@
 
 import os
-
+import settings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -34,7 +34,11 @@ LOGGING = {
     },
 }
 
-# Application definition
+EMAIL_HOST = settings.SMTP_HOST
+EMAIL_HOST_USER = settings.SMTP_LOGIN
+EMAIL_HOST_PASSWORD = settings.SMTP_PASSWORD
+EMAIL_PORT = settings.SMTP_PORT
+EMAIL_USE_TLS = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
