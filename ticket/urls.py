@@ -4,7 +4,7 @@ from . import views
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    path('hook/', views.hook, name='hook'),
+    path('<id>/', views.ticket, name='ticket'),
 
 
 ]

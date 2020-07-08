@@ -13,6 +13,7 @@ SECRET_KEY = '5_p2@c4p=%lonc8q@_loym@$o8k&qlvmq_0onahg*1s0^w&&w)'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+APPEND_SLASH = False
 
 LOGGING = {
     'version': 1,
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'amo',
+    'ticket'
 ]
 
 MIDDLEWARE = [
