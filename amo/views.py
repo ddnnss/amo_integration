@@ -60,7 +60,7 @@ def hook(request):
     #          'leads[add][0][custom_fields][7][values][0][value]': ['8'],
     #         'leads[add][0][created_at]': ['1594206823'],
     #          'leads[add][0][updated_at]': ['1594206823'], 'account[subdomain]': ['akamocfcbigideascom'], 'account[id]': ['28942735'],
-    #          'account[_links][self]': ['https://akamocfcbigideascom.amocrm.ru']}
+    #          'account[_links][self]': ['https://akamocfcbigideascom.amocrm.ru']} dimon.skiborg@gmail.com
 
     if req['leads[add][0][status_id]'][0] == '33710263':  #33710263
         print_log('New item in ticket holders')
