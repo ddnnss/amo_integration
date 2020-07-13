@@ -14,7 +14,7 @@ def ticket(request,id):
     ticket_number = ticket.ticket_number
     email = ticket.email
     if ticket.type_of_event == 'workshop':
-        event_name = 'Name of workshop'
+        event_name = 'Name of the workshop'
         time = f"{ticket.time_of_the_workshop.split(' ')[1].split('+')[0]} CET"
         return render(request, 'Ticket.html', locals())
     elif ticket.type_of_event == 'panel day':

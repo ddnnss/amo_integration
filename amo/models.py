@@ -15,5 +15,6 @@ class TicketHolder(models.Model):
     created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
 
-
+class Event(models.Model):
+    event_id=models.CharField(max_length=255,blank=True,null=True)
 
