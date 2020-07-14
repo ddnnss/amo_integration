@@ -9,17 +9,51 @@ from django.template.loader import render_to_string
 import uuid
 from random import choices
 import string
+import requests
+import datetime as dt
+from datetime import datetime
+from django.utils import timezone
+import settings
 logger = logging.getLogger('django',)
 
+#https://akamocfcbigideascom.amocrm.ru/api/v4/contacts/2266189
+#https://akamocfcbigideascom.amocrm.ru/api/v4/leads/1031991/links
 
 def print_log(text):
     logger.info('--------------------------------------------')
     logger.info(f'{datetime.now()} | {text}')
     logger.info('---------------------------------------------')
 
+def check_token():
+    print_log('Checking access_token.........')
+    token_info = Keys.objects.first()
+    if (timezone.now() - token_info.updated_at).total_seconds() < token_info.expires_in:
+        print_log('Access_token is ok')
+        return token_info.access_token
+
+    else:
+        print_log('Changing access_token')
+        headers = {
+            'Content-Type': 'application/json',
+        }
+        data ={"client_id" : settings.AMO_ID,"client_secret":settings.AMO_SECRET,"grant_type":"refresh_token","refresh_token":token_info.refresh_token,"redirect_uri":"https://mailsender.inclusionforum.global/amo/token"}
+        response = requests.post('https://akamocfcbigideascom.amocrm.ru/oauth2/access_token', headers=headers, json=data)
+        print_log('AMO response')
+        print_log(response.json())
+        token_info.access_token = response.json()['access_token']
+        token_info.refresh_token = response.json()['refresh_token']
+        token_info.expires_in = response.json()['expires_in']
+        token_info.save()
+        print_log('Changing access_token successful')
+        return response.json()['access_token']
+
+
+
+
 
 @csrf_exempt
 def hook(request):
+
     print_log('New request from AMO')
     req = request.POST
     print_log(req)
@@ -44,14 +78,6 @@ def hook(request):
                 pass
 
             if id:
-                if id == '44991':
-                    first_name = req[f'leads[add][0][custom_fields][{i}][values][0][value]']
-                    print_log('first_name set')
-
-                if id == '45335':
-                    last_name = req[f'leads[add][0][custom_fields][{i}][values][0][value]']
-                    print_log('last_name set')
-
                 if id == '44995':
                     email = req[f'leads[add][0][custom_fields][{i}][values][0][value]']
                     print_log('email set')
@@ -82,6 +108,17 @@ def hook(request):
 
         random_string = ''.join(choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=8))
         url = f'{random_string}--{ticket_number}'
+        access_token = check_token()
+
+        r = requests.get(f"https://akamocfcbigideascom.amocrm.ru/api/v4/leads/{req['leads[add][0][id]']}/links",
+                         headers={"Authorization": f'Bearer {access_token}'})
+        contact_id = r.json()['_embedded']['links'][0]['to_entity_id']
+        r = requests.get(f"https://akamocfcbigideascom.amocrm.ru/api/v4/contacts/{contact_id}",
+                         headers={"Authorization": f'Bearer {access_token}'})
+        first_name = r.json()['first_name']
+        last_name = r.json()['last_name']
+
+
         new_ticket = TicketHolder.objects.create(first_name=first_name,
                                     last_name=last_name,
                                     amo_number=req['leads[add][0][id]'],
@@ -94,7 +131,7 @@ def hook(request):
                                     time_of_the_workshop=time_of_the_workshop)
         print_log(f'New tickes is : {new_ticket.id}')
         print_log(f'Sending E-mail to : {email}')
-        
+
         event = Event.objects.first()
 
         ticket_url = f'https://mailsender.inclusionforum.global/ticket/{url}/'
