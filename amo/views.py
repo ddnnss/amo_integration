@@ -70,6 +70,9 @@ def hook(request):
         type_of_event = None
         date_of_event = None
         time_of_the_workshop = None
+        start_time = None
+        end_time = None
+
 
         for i in range(0,10):
             id=None
@@ -92,11 +95,15 @@ def hook(request):
                     print_log('type_of_event set')
 
                 if id == '133731':
-                    date_of_event = datetime.utcfromtimestamp(int(req[f'leads[add][0][custom_fields][{i}][values][0][value]'])).replace(tzinfo=pytz.utc)
+                    data = datetime.utcfromtimestamp(
+                        int(req[f'leads[add][0][custom_fields][{i}][values][0][value]'])).replace(tzinfo=pytz.utc)
+                    date_of_event = data.strftime('%d %b %Y')
                     print_log('date_of_event set')
 
                 if id == '127001':
-                    time_of_the_workshop = datetime.utcfromtimestamp(int(req[f'leads[add][0][custom_fields][{i}][values][0][value]'])).replace(tzinfo=pytz.utc)
+                    data = datetime.utcfromtimestamp(
+                        int(req[f'leads[add][0][custom_fields][{i}][values][0][value]'])).replace(tzinfo=pytz.utc)
+                    time_of_the_workshop = data.strftime('%H %M %S')
                     print_log('time_of_the_workshop set')
 
                 if id == '45285':
@@ -107,40 +114,55 @@ def hook(request):
                     tiket_url = req[f'leads[add][0][custom_fields][{i}][values][0][value]']
                     print_log('tiket_url set')
 
+                if id == '133651':
+                    data = datetime.utcfromtimestamp(
+                        int(req[f'leads[add][0][custom_fields][{i}][values][0][value]'])).replace(tzinfo=pytz.utc)
+
+                    start_time = data.strftime('%H %M %S')
+                    print_log('start_time set')
+
+                if id == '133653':
+                    data = datetime.utcfromtimestamp(
+                        int(req[f'leads[add][0][custom_fields][{i}][values][0][value]'])).replace(tzinfo=pytz.utc)
+                    end_time = data.strftime('%H %M %S')
+                    print_log('end_time set')
+
         random_string = ''.join(choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=8))
         url = f'{random_string}--{ticket_number}'
-        access_token = check_token()
 
-        r = requests.get(f"https://akamocfcbigideascom.amocrm.ru/api/v4/leads/{req['leads[add][0][id]']}/links",
-                         headers={"Authorization": f'Bearer {access_token}'})
-        contact_id = r.json()['_embedded']['links'][0]['to_entity_id']
-        r = requests.get(f"https://akamocfcbigideascom.amocrm.ru/api/v4/contacts/{contact_id}",
-                         headers={"Authorization": f'Bearer {access_token}'})
+        # access_token = check_token()
+        # r = requests.get(f"https://akamocfcbigideascom.amocrm.ru/api/v4/leads/{req['leads[add][0][id]']}/links",
+        #                  headers={"Authorization": f'Bearer {access_token}'})
+        #
+        # links = r.json()
+        # contact_id=0
+        # for x in links['_embedded']['links']:
+        #     if x['to_entity_type'] == 'contacts':
+        #         contact_id = x['to_entity_id']
 
-        try:
-            name = r.json()['name']
-        except:
-            pass
+       # contact_id = r.json()['_embedded']['links'][0]['to_entity_id']
+       #  r = requests.get(f"https://akamocfcbigideascom.amocrm.ru/api/v4/contacts/{contact_id}",
+       #                   headers={"Authorization": f'Bearer {access_token}'})
+       #  try:
+       #      name = r.json()['name']
+       #  except:
+       #      pass
+       #  try:
+       #      first_name = r.json()['first_name']
+       #  except:
+       #      pass
+       #  try:
+       #      last_name = r.json()['last_name']
+       #  except:
+       #      pass
+       #  if not first_name:
+       #      first_name = name
 
-        try:
-            first_name = r.json()['first_name']
-        except:
-            pass
-        try:
-            last_name = r.json()['last_name']
-        except:
-            pass
-
-        if not first_name:
-            first_name = name
-
-        ticket = None
-        try:
-            tiket = TicketHolder.objects.get(amo_number=req['leads[add][0][id]'])
-        except:
-            pass
-
-        if not ticket:
+        
+        ticket = TicketHolder.objects.filter(email=email)
+        amo_id = TicketHolder.objects.filter(amo_number=amo_number)
+        print_log(ticket)
+        if len(ticket) == 0:
             print_log('Creating ticket record')
             new_ticket = TicketHolder.objects.create(first_name=first_name,
                                         last_name=last_name,
@@ -150,6 +172,8 @@ def hook(request):
                                         ticket_url=url,
                                         type_of_event=type_of_event,
                                         event=event,
+                                        start_time=start_time,
+                                        end_time=end_time,
                                         date_of_event=date_of_event,
                                         time_of_the_workshop=time_of_the_workshop)
             print_log(f'New tickes is : {new_ticket.id}')
